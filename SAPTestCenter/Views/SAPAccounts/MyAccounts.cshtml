@@ -1,0 +1,318 @@
+﻿@model IEnumerable<SAPTest.Model.AccountUser>
+
+@{
+    ViewBag.Title = "MyAccounts";
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-lg-10">
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("SAP Logon", "Index", "SAPAccounts")</li>
+                <li class="active">My Accounts</li>
+                <li>@Html.ActionLink("Apply Access", "GetAccess", "SAPAccounts")</li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+            <button type="button" class="btn btn-primary" id="btn_Add"><span class="glyphicon glyphicon-plus"></span></button>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_Confirm" role="dialog">
+    <div class="modal-dialog">
+        <input type="hidden" id="deleteAccountId" value="0"/>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">WARNING</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure want to delete Box:<span id="deleteBoxName"></span>?</h4>
+            </div>
+            <div class="modal-footer">
+                <img id="img_Loading_Confirm" src="~/Image/HPStyle_Spinning.gif" style="display:none" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="deleteBox()">OK</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myBox" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 id="box_Title" class="modal-title">Box:LH4</h4>
+            </div>
+            <form class="form-horizontal" id="form-account" action="/SAPAccounts/Create" method="post">
+                <div class="modal-body">
+                    <div class="form-group hidden" id="div_Box">
+                        <label for="box" class="col-sm-4 control-label">Box Name:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="boxname" id="boxname" placeholder="Box Name" />
+                        </div>
+                    </div>
+
+                    <input type="hidden" value="0" name="id" id="boxid" />
+                    <div class="form-group">
+                        <label for="user" class="col-sm-4 control-label">User Name:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="user" name="username" placeholder="User Name" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd" class="col-sm-4 control-label">Password:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="pwd" name="password" placeholder="Password" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="client" class="col-sm-4 control-label">Client:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="client" name="client" placeholder="Client" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="server" class="col-sm-4 control-label">Server Address:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="server" name="serveraddress" placeholder="Server Address" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-offset-4 col-sm-4">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="hidden" id="isAvailable_Value" name="isavailable" value="false" />
+                                        <input type="checkbox" id="isAvailable" />Is Available
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="hidden" id="isPrivate_Value" name="isPrivate" value="false" />
+                                        <input type="checkbox" id="isPrivate" />Is Private
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save Changes" id="submit" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        $("#isPrivate").click(function () {
+            $("#isPrivate_Value").val(this.checked);
+        });
+        $("#isAvailable").click(function () {
+            $("#isAvailable_Value").val(this.checked);
+        });
+        $("#submit").click(function () {
+            var type = $("#submit").prop("type");
+            if (type != "submit")
+            {
+                var data = $("#form-account").serialize();
+                var action = "/api/sapaccountsdata/updateaccount";
+                $.post(action, data, function (data, textStatus) {
+                    alert(textStatus);
+
+                    var baseSelector = "#" + data.Id;
+
+
+
+                    $(baseSelector + " .panel-heading").text(data.BoxName);
+
+                    $(baseSelector + " .sap_UserName").text(data.UserName);
+
+                    $(baseSelector + " .sap_Password").val(data.Password);
+
+                    $(baseSelector + " .sap_Server").val(data.ServerAddress);
+
+                    $(baseSelector + " .sap_Client").text(data.Client);
+
+
+
+
+                    $(baseSelector + " .sap_IsAvailable input").prop("checked", data.IsAvailable);
+
+                    $(baseSelector + " .sap_IsPrivate input").prop("checked", data.IsPrivate);
+
+
+
+                    $('#myBox').modal('hide');
+                });
+            }
+        });
+        $("#btn_Add").click(function () {
+            $("#submit").prop("type", "submit");
+            $("#div_Box").removeClass("hidden");
+            $("#box_Title").text("New Account");
+            $("#boxid").val(0);
+            $('#myBox').modal('show');
+        });
+    });
+
+    function edit(boxId) {
+
+        $("#div_Box").removeClass("hidden");
+        $("#div_Box").addClass("hidden");
+        $("#submit").prop("type", "button");
+        var baseSelector = "#" + boxId;
+
+        var boxName = $(baseSelector + " .panel-heading").text().trim();
+
+        var userName = $(baseSelector + " .sap_UserName").text().trim();
+
+        var password = $(baseSelector + " .sap_Password").val();
+
+        var server = $(baseSelector + " .sap_Server").val();
+
+        var client = $(baseSelector + " .sap_Client").text().trim();
+
+
+        var e = $(baseSelector + " .sap_IsAvailable input");
+
+        var isAvailable = $(baseSelector + " .sap_IsAvailable input").prop("checked");
+
+        var isPrivate = $(baseSelector + " .sap_IsPrivate input").prop("checked");
+
+        $("#box_Title").text("Box:" + boxName);
+        $("#boxid").val(boxId);
+        $("#boxname").val(boxName);
+        $("#user").val(userName);
+        $("#pwd").val(password);
+        $("#client").val(client);
+        $("#server").val(server);
+        $("#isPrivate_Value").val(isPrivate);
+        $("#isAvailable_Value").val(isAvailable);
+
+
+        $("#isAvailable").prop('checked', isAvailable);
+        $("#isPrivate").prop('checked', isPrivate);
+
+
+
+        $('#myBox').modal('show');
+    }
+
+    function confirmDelete(boxId,boxName) {
+
+        $('#deleteAccountId').val(boxId);
+        $('#deleteBoxName').text(boxName);
+        $('#modal_Confirm').modal('show');
+    }
+
+    function deleteBox() {
+        var url = "/api/SAPAccountsData/DeleteAccount";
+        var id = $('#deleteAccountId').val();
+        $.post(url, {Id:id}, function () { 
+            $("#"+id).remove();
+            $('#modal_Confirm').modal('hide');
+            alert("The box has been deleted"); 
+        }).fail(function () {
+            alert("Fail to delete the account.");
+        });
+    }
+
+</script>
+
+
+
+<div id="body" class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-3 col-md-3" id="@item.Account.Id">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    @item.Account.BoxName
+                </div>
+                <input type="hidden" class="sap_Password" value="@item.Account.Password" />
+                <input type="hidden" class="sap_Server" value="@item.Account.ServerAddress" />
+
+                <div class="panel-body">
+                    <table class="table table-condensed">
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.Account.UserName):
+                                </td>
+                                <td class="sap_UserName">
+                                    @Html.DisplayFor(i => item.Account.UserName)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.Account.Client):
+                                </td>
+                                <td class="sap_Client">
+                                    @Html.DisplayFor(i => item.Account.Client)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.Account.IsAvailable):
+                                </td>
+                                <td class="sap_IsAvailable">
+                                    @Html.DisplayFor(i => item.Account.IsAvailable)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.Account.IsPrivate):
+                                </td>
+                                <td class="sap_IsPrivate">
+                                    @Html.DisplayFor(i => item.Account.IsPrivate)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="/SAPAccounts/Details/@item.Account.Id" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-user" ><span style="font-family:Arial;font-weight:bold"> Users</span></span></a>
+                                </td>
+                                <td class="text-right">
+                                    <button type="button" onclick="edit(@item.Account.Id)" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-pencil"></span></button>
+                                    @if(item.IsPrimary)
+                                    {
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete(@item.Account.Id,'@item.Account.BoxName')"><span class="glyphicon glyphicon-remove"></span></button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger btn-sm" disabled="disabled"><span class="glyphicon glyphicon-remove"></span></button>
+                                    }
+                                </td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+
+
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    }
+</div>
+<div class="row" />

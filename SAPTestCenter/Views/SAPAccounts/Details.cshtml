@@ -1,0 +1,227 @@
+﻿@model SAPTest.Model.Account
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<p />
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-lg-10">
+            <ol class="breadcrumb">
+                <li class="active">Box:@Model.BoxName</li>
+                <li>@Html.ActionLink("SAP Logon", "Index", "SAPAccounts")</li>
+                <li>@Html.ActionLink("My Accounts", "MyAccounts", "SAPAccounts")</li>
+                <li>@Html.ActionLink("Apply Access", "GetAccess", "SAPAccounts")</li>
+                
+
+            </ol>
+        </div>
+        <div class="col-lg-2">
+            <button type="button" class="btn btn-primary" id="btn_Add"><span class="glyphicon glyphicon-plus"></span></button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var id = 0;
+    var actid = 0;
+    var uid = 0;
+
+    function setData(aid) {
+        id = aid;
+        actid = $('#' + aid + ' .sap-actId').val();
+        uid = $('#' + aid + ' .sap-uid').val();
+    }
+
+    function openEdit(aid) {
+        
+        setData(aid);
+
+        $('#box_Title').text($('#' + id + ' .sap-user').text())
+        
+        var checked = $('#' + id + ' .sap-owner').val();
+        if (checked == 0)
+            checked = false;
+        else
+            checked = true;
+
+        
+
+        $('#IsOwner').prop('checked', checked);
+        $('#modal_ActUser').modal('show');
+    }
+
+    function showConfrim(id) {
+        $('#modal_Confirm').modal('show');
+        setData(id);
+    }
+
+    function removeUser() {
+        alert(uid);
+        var url = '/api/SAPAccountsData/RemoveUser';
+        $.post(url, { Id: id, AcctId: actid, Uid: uid }, function () {
+            $("#" + id).remove();
+            $('#modal_Confirm').modal('hide');
+        });
+    }
+
+    function edit() {
+        var url = '/api/SAPAccountsData/UpdateAccountUser';
+        var isOwner = $('#IsOwner').prop('checked');
+      
+        $.post(url, { Id: id, AcctId: actid, Uid: uid, IsOwner: isOwner }, function (data) {
+            var isO = 0;
+            if (data.IsOwner == true) {
+                isO = 1;
+            }
+            $('#' + id + ' .sap-owner').val(isO);
+            $('#modal_ActUser').modal('hide');
+        });
+    }
+</script>
+
+
+<div class="modal fade" id="modal_Confirm" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">WARNING</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure want to delete?</h4>
+            </div>
+            <div class="modal-footer">
+                <img id="img_Loading_Confirm" src="~/Image/HPStyle_Spinning.gif" style="display:none" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="removeUser()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_ActUser" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 id="box_Title" class="modal-title text-center"></h4>
+            </div>
+
+            <div class="modal-body text-center">
+                @*<div class="form-group">
+                        <label for="email" class="col-sm-4 control-label">Email:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="email" name="username"  />
+                        </div>
+                    </div>*@
+
+
+                <div class="form-group">
+
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="IsOwner" />IsOwner
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <input type="button" class="btn btn-primary" value="Save Changes" onclick="edit()" id="submit" />
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@foreach (var au in Model.AccountUsers)
+{
+
+    <div class="col-lg-3" id="@au.Id">
+        <div class="row">
+            <div class="col-lg-8">
+                <input type="hidden" class="sap-actId" value="@au.AcctId" />
+                <input type="hidden" class="sap-uid" value="@au.Uid" />
+                <input type="hidden" class="sap-owner" value="@(au.IsOwner?1:0)" />
+                <img style="position:relative;top:0;left:0" src="~/Image/self.png" />
+                @{
+    if (au.IsPrimary)
+    {
+        <img style="position:absolute;top:15px;right:60px" width="20" height="20" src="~/Image/top-star.png" />
+    }
+    if (au.IsOwner && au.IsPrimary == false)
+    {
+        <img style="position:absolute;top:15px;right:60px" width="20" height="20" src="~/Image/star.png" />
+    }
+                }
+
+
+                <a href="mailto:@au.User.Email" class="sap-user">@au.User.UserName</a>
+            </div>
+            <div class="col-lg-offset-2">
+
+            </div>
+            <div class="col-lg-4">
+                <p>
+                    <a href="SIP:@au.User.Email" class="btn btn-success"><span class="glyphicon glyphicon-comment" /></a>
+                </p>
+
+                <p></p>
+                <p>
+                    <a href="mailto:@au.User.Email" class="btn btn-warning"><span class="glyphicon glyphicon-envelope"></span></a>
+                </p>
+
+                <p></p>
+
+                @if (au.IsPrimary == false)
+                {
+                    <p>
+                        <button type="button" class="btn btn-danger" onclick="showConfrim(@au.Id)"><span class="glyphicon glyphicon-remove"></span></button>
+                    </p>
+
+                    <p></p>
+                    <p>
+                        <button type="button" class="btn btn-primary" onclick="openEdit(@au.Id)"><span class="glyphicon glyphicon-pencil"></span></button>
+                    </p>
+                }
+                
+            </div>
+
+        </div>
+
+        <div class="row">
+
+        </div>
+        <p />
+    </div>
+}
+
+<div class="row"></div>
+
+
+<script>
+    //$(document).ready(function () {
+    //    $(".sapUser").hover(function () {
+
+    //        $("#" + this.id).css("background-color", "gray");
+    //        $("#" + this.id + " a").css("color", "white");
+    //    }, function () {
+    //        $("#" + this.id).css("background-color", "white");
+    //        $("#" + this.id + " a").css("color", "#0098db");
+    //    });
+
+    //    $(".sapUser").click(function () {
+    //        $("#" + this.id).css("background-color", "#0098db");
+    //    });
+    //});
+
+</script>

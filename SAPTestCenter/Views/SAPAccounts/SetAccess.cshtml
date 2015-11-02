@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "SetAccess";
+}
+
+@{
+    if (ViewBag.ErrorMessage != null)
+    {
+        <h2 style="color:red;">Error</h2>
+        <p>@ViewBag.ErrorMessage</p>
+    }
+    else
+    {
+        <h2 style="color:green;">Success</h2>
+        <p>@ViewBag.UserName now have access to SAP Box: @ViewBag.BoxName</p>
+    }
+}
+

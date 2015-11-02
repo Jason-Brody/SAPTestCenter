@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=10">
+    <link rel="icon" href="~/Image/HP.jpg" type="image/x-icon" />
+    <title>@ViewBag.Title - SAP Test Center</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+<body>
+    <audio controls="controls" id="music" style="visibility:hidden">
+        <source src="~/Media/See%20You%20Again.mp3" type="audio/mpeg" />
+    </audio>
+    <div class="modal fade" id="modal_donate" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Young</h4>
+                </div>
+
+                <div class="modal-body text-center" >
+                    <img src="~/Image/Donate.png" width="350" height="350" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                @Html.ActionLink("SAP Test Center", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+
+                <ul class="nav navbar-nav">
+                    @*<li><a data-toggle="modal" data-target="#modal_donate" href="#">Donate</a></li>*@
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                    <li>@Html.ActionLink("Report", "Index", "Report")</li>
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SAP Logon <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Logon", "Index", "SAPAccounts")</li>
+                            <li>@Html.ActionLink("My Accounts", "MyAccounts", "SAPAccounts")</li>
+                            <li>@Html.ActionLink("Apply Access","GetAccess","SAPAccounts")</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SAP Test Framework<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/SAPTestFramework/SAPGuiApi/index.html">Introduction</a></li>
+                            <li><a href="/SAPTestFramework/DataEngine/index.html">Data Engine</a></li>
+                            <li><a href="/SAPTestFramework/ScreenComponent/ScreenComponent.html">Screen Component</a></li>
+                        </ul>
+                    </li>
+                    <li><a><span id="play_Icon" class="glyphicon glyphicon-play"></span></a></li>
+                </ul>
+
+                <p class="nav navbar-text navbar-right">Hello, @User.Identity.Name!</p>
+                <img class="nav navbar-left pull-right" src="~/Image/logo.png" />
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - SAP Test Center</p>
+        </footer>
+    </div>
+
+
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#play_Icon").click(function () {
+
+                var className = $(this).attr("class");
+                var audio = document.getElementById("music");
+
+                if (className.indexOf("stop") >= 0) {
+                    $(this).attr("class", "glyphicon glyphicon-play");
+                    audio.pause();
+
+                }
+                else {
+                    $(this).attr("class", "glyphicon glyphicon-stop")
+                    audio.play();
+                }
+
+
+            });
+        })
+
+    </script>
+
+</body>
+</html>

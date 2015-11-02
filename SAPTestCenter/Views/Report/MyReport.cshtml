@@ -1,0 +1,427 @@
+﻿@model SAPTestCenter.Controllers.ReportInfo
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="page-header">
+    <h1>SAP Test Report <small></small></h1>
+</div>
+
+<style>
+    #search {
+        margin: 0px 5px 5px -15px;
+    }
+</style>
+
+
+
+
+
+
+<div class="row">
+    <div class="col-lg-10">
+        <ul class="nav nav-pills" role="tablist">
+
+            <li role="presentation">
+                <a href="~/Report">Total Reports <span class="badge" id="badge_Total">@Model.TotalReportNum</span></a>
+            </li>
+            <li role="presentation" class="active">
+                <a href="~/Report/MyReport">My Reports <span class="badge" id="badge_My">@Model.MyReportNum</span></a>
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="col-lg-2 text-right">
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal" id="btn_Upload">
+            <span class="glyphicon glyphicon-upload"></span> Upload
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_Confirm" role="dialog" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">WARNING</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure want to delete?</h4>
+            </div>
+            <div class="modal-footer">
+                <img id="img_Loading_Confirm" src="~/Image/HPStyle_Spinning.gif" style="display:none" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" onclick="removeReport()">OK</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="header_Title">Report Upload </h4>
+            </div>
+            <form class="form-horizontal" id="modal-inter" action="/Report/Upload" enctype="multipart/form-data" method="post" role="form">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="project" class="col-sm-2 control-label">Project:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="project">
+                                <option value="-1">Please select a project</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="release" class="col-sm-2 control-label">Release:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="release">
+                                <option value="-1">Please select a release</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="asset" class="col-sm-2 control-label">Asset:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="asset" name="asset">
+                                <option value="-1">Please select a asset</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="div_File">
+                        <label for="file" class="col-sm-2 control-label">Report:</label>
+                        <div class="col-sm-10">
+
+                            <input type="file" id="file" name="file" class="form-control" />
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <img id="img_Loading" src="~/Image/HPStyle_Spinning.gif" style="display:none" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input id="btn_Submit" type="submit" onclick="editReport()" class="btn btn-primary" value="Upload" />
+                </div>
+            </form> 
+        </div>
+    </div>
+</div>
+
+<div class="page-header">
+    @{
+        int row = int.Parse(Math.Ceiling((double)Model.Reports.Count / 4).ToString());
+
+
+        for (int i = 0; i < row; i++)
+        {
+            <div class="row">
+                @for (int j = 0; j < 4; j++)
+                {
+                    <div class="col-lg-3" >
+                        @if (i * 4 + j < Model.Reports.Count)
+                        {
+                            <div class="panel panel-primary" id="rp_@Model.Reports[i*4+j].Id">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-lg-12" data-toggle="tooltip" data-placement="top" title="@Model.Reports[i * 4 + j].TestName">
+                                            @*<span class="glyphicon glyphicon-tasks"></span>*@
+                                            @Model.Reports[i * 4 + j].TestName
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>Project:</td>
+                                                <td id="pj_@Model.Reports[i*4+j].Id">@Model.Reports[i * 4 + j].Asset.Release.Project.Name</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Release:</td>
+                                                <td id="rel_@Model.Reports[i*4+j].Id">@Model.Reports[i * 4 + j].Asset.Release.Name</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Asset:</td>
+                                                <td id="at_@Model.Reports[i*4+j].Id">@Model.Reports[i * 4 + j].Asset.Name</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Submit On:</td>
+                                                <td>@Model.Reports[i * 4 + j].SubmitDt.ToString()</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Submit By:</td>
+                                                <td>@Model.Reports[i * 4 + j].Executor</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Status:</td>
+                                                <td>
+                                                    @{
+                            string className = "glyphicon glyphicon-";
+                            if (Model.Reports[i * 4 + j].TestResult.Value)
+                            {
+                                className += "ok";
+                            }
+                            else
+                            {
+                                className += "remove";
+                            }
+                                                    }
+                                                    <span class="@className"></span>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <a class="btn btn-danger btn-sm" href="/Report1/ReportFiles/@Model.Reports[i*4+j].Url/report.xml"><span class="glyphicon glyphicon-th"></span> Show Details</a>
+
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a class="btn btn-primary btn-sm" onclick="edit(@Model.Reports[i*4+j].Id)" ><span class="glyphicon glyphicon-edit"></span></a>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a class="btn btn-danger btn-sm" onclick="say(@Model.Reports[i*4+j].Id)"><span class="glyphicon glyphicon-remove"></span></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+                }
+            </div>
+
+        }
+
+    }
+</div>
+
+<div class="row">
+    <div class="col-lg-12 text-right">
+        <nav>
+            <ul class="pagination">
+
+
+                @if (ViewBag.CurrentPage - 1 == 0)
+                {
+                    <li class="disabled"><a href="/Report/MyReport?page=@(ViewBag.CurrentPage-1)">&laquo;</a></li>
+                }
+                else
+                {
+                    <li><a href="/Report/MyReport?page=@(ViewBag.CurrentPage-1)">&laquo;</a></li>
+                }
+
+
+                @for (int i = 1; i <= ViewBag.PageCount; i++)
+                {
+                    if (ViewBag.CurrentPage == i)
+                    {
+                        <li class="active"><a href="#">@i</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="/Report/MyReport?page=@i">@i</a></li>
+                    }
+
+                }
+
+
+                @if (ViewBag.CurrentPage == ViewBag.PageCount)
+                {
+                    <li class="disabled"><a href="/Report/MyReport?page=@(ViewBag.CurrentPage+1)">&raquo;</a></li>
+                }
+                else
+                {
+                    <li><a href="/Report/MyReport?page=@(ViewBag.CurrentPage+1)">&raquo;</a></li>
+                }
+
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function say(id) {
+        $("#img_Loading_Confirm").css('display', 'none');
+        $("#modal_Confirm").removeAttr("value");
+        $("#modal_Confirm").attr("value",id);
+
+        $("#modal_Confirm").modal({
+            show: true,
+            backdrop: true
+        })
+    }
+
+    function edit(id) {
+        $("#img_Loading").css('display', 'none');
+        $("#myModal").removeAttr("value");
+        $("#myModal").attr("value", id);
+        $("#div_File").css('display','none');
+
+        $("#btn_Submit").val('Save Changes');
+        $("#modal-inter").removeAttr('action');
+        $("#modal-inter").removeAttr('enctype');
+        $("#modal-inter").removeAttr('method');
+        $("#btn_Submit").removeAttr('onclick');
+        $("#btn_Submit").attr('type','button');
+        $("#btn_Submit").attr('onclick','editReport()')
+        $("#header_Title").text("Edit");
+
+        $("#myModal").modal({
+            show: true,
+            backdrop: true
+        });
+    }
+
+    function editReport(){
+        $("#img_Loading").css('display', 'inline');
+        var id = $("#myModal").attr("value");
+        
+        var atId = $("#asset option:selected").attr("value");
+
+        if(atId>0){
+            var url = "/api/reportdata/UpdateReport";
+            $.post(url, { Id: id,AssetId:atId }, function (data) {
+                $("#pj_"+id).text($("#project option:selected").text());
+                $("#rel_"+id).text($("#release option:selected").text());
+                $("#at_"+id).text($("#asset option:selected").text());
+                $("#img_Loading").css('display', 'none');
+                $("#myModal").modal('hide');
+            });
+        }else{
+            $("#img_Loading").css('display', 'none');
+            alert("Please select an Asset");
+        }
+        
+    }
+
+    //function upload(){
+    //    var fileObj = document.getElementById("file").files[0];
+    //    var fileController = "/Report/Upload";
+    //    var aid = $("#asset option:selected").attr("value")
+
+    //    if (aid > 0)
+    //    {
+    //        var form = new FormData();
+    //        form.append("asset", aid);
+    //        form.append("file", fileObj);
+
+    //        var xhr = new XMLHttpRequest();
+    //        xhr.open("post", fileController, true);
+    //        xhr.onload = function () {
+    //            $("#img_Loading").css('display', 'none');
+    //            $("#myModal").modal('hide');
+    //        };
+    //        xhr.send(form);
+    //    }
+    //    else
+    //    {
+    //        alert("Please select an asset");
+            
+    //    }
+
+        
+    //}
+
+    function removeReport(){
+        
+        
+        $("#img_Loading_Confirm").css('display', 'inline');
+        var id = $("#modal_Confirm").attr("value");
+        
+
+        var url = "/api/reportdata/DeleteReport";
+        $.post(url, { Id: id }, function (data) {
+            var elementId = "#rp_" + id;
+            $("#badge_Total").text($("#badge_Total").text() - 1);
+            $("#badge_My").text($("#badge_My").text() - 1);
+            $("#modal_Confirm").modal('hide');
+            $(elementId).css('display', 'none');
+        });
+        
+    }
+
+    $(document).ready(function () {
+
+        $("#btn_Upload").click(function(){
+            $("#div_File").css('display','block');
+            $("#btn_Submit").val('Upload');
+            $("#modal-inter").attr('action', '/Report/Upload');
+            $("#modal-inter").attr('enctype', 'multipart/form-data');
+            $("#modal-inter").attr('method', 'post');
+            $("#btn_Submit").attr('type','submit');
+            $("#btn_Submit").removeAttr('onclick');
+            $("#header_Title").text("Report Upload");
+        });
+        
+
+        $("#btn_Submit").click(function () {
+            $("#img_Loading").css('display', 'inline');
+        });
+
+        var url = "/api/reportdata/GetProjects";
+
+        $.getJSON(url, function (data) {
+            $("#img_Loading").css('display', 'inline');
+            $(data).each(function () {
+                $("#project").append($("<option/>").text(this.Name).attr("value", this.Id));
+            })
+            $("#img_Loading").css('display', 'none');
+        });
+
+        $("#project").change(function () {
+
+            $("#release").empty();
+            $("#asset").empty();
+            $("#release").append($("<option value='-1'>Please select a release</option>"))
+            $("#asset").append($("<option value='-1'>Please select a asset</option>"))
+            $("#img_Loading").css('display', 'inline');
+            var url = "/api/reportdata/getreleases";
+
+            var pid = $("#project option:selected").attr("value")
+
+            if (pid > 0) {
+                $.getJSON(url, { id: pid }, function (data) {
+                    $(data).each(function () {
+                        $("#release").append($("<option/>").text(this.Name).attr("value", this.Id));
+                    })
+                })
+            }
+            $("#img_Loading").css('display', 'none');
+
+        });
+
+        $("#release").change(function () {
+
+            $("#asset").empty();
+            $("#asset").append($("<option value='-1'>Please select a asset</option>"))
+
+            var url = "/api/reportdata/getassets";
+
+            var rid = $("#release option:selected").attr("value")
+            $("#img_Loading").css('display', 'inline');
+            if (rid > 0) {
+                $.getJSON(url, { id: rid }, function (data) {
+                    $(data).each(function () {
+                        $("#asset").append($("<option/>").text(this.Name).attr("value", this.Id));
+                    })
+                })
+            }
+            $("#img_Loading").css('display', 'none');
+        })
+    })
+</script>

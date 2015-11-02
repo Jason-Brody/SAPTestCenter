@@ -1,0 +1,55 @@
+﻿@model IEnumerable<SAPTest.Model.Account>
+@{
+    ViewBag.Title = "GetAccess";
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-lg-10">
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("SAP Logon","Index","SAPAccounts")</li>
+                <li>@Html.ActionLink("My Accounts","MyAccounts","SAPAccounts")</li>
+                
+                <li class="active">Apply Access<span class="badge"> @Model.Count()</span></li>
+
+            </ol>
+        </div>
+        <div class="col-lg-2">
+            <button class="btn btn-primary" onclick="getAccess()">Apply Access</button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <ul class="nav nav-pills">
+        @foreach (var item in Model)
+        {
+            <li id="@item.Id" role="presentation" class="col-lg-2 col-md-2" onclick="active(@item.Id)"><a>@Html.DisplayFor(modelItem => item.BoxName)</a></li>
+        }
+
+    </ul>
+</div>
+
+<script>
+    var lastid = null;
+
+    function active(id) {
+
+        if (lastid != null) {
+            $("#" + lastid).removeClass("active");
+        }
+
+        $("#" + id).addClass("active");
+
+        lastid = id;
+    }
+
+    function getAccess() {
+        if(lastid!=null)
+        {
+            var boxName = $("#" + lastid + " a").text();
+            var url = "/api/sapaccountsdata/getaccess";
+            $.post(url, { Id: lastid, BoxName: boxName }, function () { alert("An email has been sent to Owner, please wait.") });
+        }
+    }
+</script>
