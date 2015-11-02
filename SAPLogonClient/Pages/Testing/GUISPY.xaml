@@ -1,0 +1,108 @@
+﻿<UserControl x:Class="SAPLogonClient.Pages.Testing.GUISPY"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                <Setter Property="HeaderTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Type}"/>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+       
+    </UserControl.Resources>
+    <Grid Style="{StaticResource ContentRoot}" x:Name="gd_Main">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer Grid.Column="1">
+            <StackPanel x:Name="sp_ButtonList"  VerticalAlignment="Stretch" Margin="0,30,0,0">
+
+                <mui:ModernButton x:Name="btn_ShowData" ToolTip="Show Data" Click="btn_ShowData_Click"
+                                  IconData="F1 M 38,33.1538C 40.6765,33.1538 42.8462,35.3235 42.8462,38C 42.8462,40.6765 40.6765,42.8461 38,42.8461C 35.3235,42.8461 33.1539,40.6765 33.1539,38C 33.1539,35.3235 35.3236,33.1538 38,33.1538 Z M 38,25.0769C 49.3077,25.0769 59,33.1538 59,38C 59,42.8461 49.3077,50.9231 38,50.9231C 26.6923,50.9231 17,42.8461 17,38C 17,33.1538 26.6923,25.0769 38,25.0769 Z M 38,29.1154C 33.0932,29.1154 29.1154,33.0932 29.1154,38C 29.1154,42.9068 33.0932,46.8846 38,46.8846C 42.9068,46.8846 46.8846,42.9068 46.8846,38C 46.8846,33.0932 42.9068,29.1154 38,29.1154 Z "/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" Margin="20,5">
+                <RadioButton x:Name="rd_Prop" GroupName="1" Content="Properties" FontSize="18" FontWeight="Bold" Margin="20,0" Checked="rd_Prop_Checked"></RadioButton>
+                <RadioButton x:Name="rd_Method" GroupName="1" Content="Methods" FontSize="18" FontWeight="Bold" Checked="rd_Method_Checked"></RadioButton>
+
+            </StackPanel>
+
+            <Grid Grid.Row="1" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TreeView x:Name="tv_Elements" SelectedItemChanged="tv_Elements_SelectedItemChanged" MouseMove="tv_Elements_MouseMove">
+                    
+                </TreeView>
+                <Grid Grid.Column="1" x:Name="gd_Info">
+                    <Canvas x:Name="cv" Width="{Binding ElementName=gd_Info,Path=ActualWidth}" Height="{Binding ElementName=gd_Info,Path=ActualHeight}" ClipToBounds="True">
+                        <Grid x:Name="gd_Content" Canvas.Left="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid x:Name="gd_Prop" Width="{Binding ElementName=cv,Path=ActualWidth}" Height="{Binding ElementName=cv,Path=ActualHeight}">
+                                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderThickness="0" x:Name="lv_Props" ItemsSource="{Binding}" Background="Transparent">
+                                    <ListView.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Copy Name" x:Name="mi_Name" Click="mi_Name_Click"/>
+                                            <MenuItem Header="Copy Value" x:Name="mi_Value" Click="mi_Value_Click"/>
+                                        </ContextMenu>
+                                    </ListView.ContextMenu>
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridView.Columns>
+                                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="220">
+                                                </GridViewColumn>
+
+                                                <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Value}" Width="800">
+
+                                                </GridViewColumn>
+                                            </GridView.Columns>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Grid>
+                            <Grid x:Name="gd_Method" Grid.Column="1" Width="{Binding ElementName=cv,Path=ActualWidth}" Height="{Binding ElementName=cv,Path=ActualHeight}">
+                                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderThickness="0" x:Name="lv_Methods" ItemsSource="{Binding}" Background="Transparent">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridView.Columns>
+                                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding}" Width="500">
+                                                </GridViewColumn>
+                                            </GridView.Columns>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Grid>
+                        </Grid>
+                    </Canvas>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

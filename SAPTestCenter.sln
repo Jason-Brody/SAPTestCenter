@@ -5,6 +5,20 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAPTestCenter", "SAPTestCenter\SAPTestCenter.csproj", "{F88EB5F5-ED18-46D4-A2B2-574778515D20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAPLogonClient", "SAPLogonClient\SAPLogonClient.csproj", "{7CD3988C-79DD-45BC-BB50-9900169570E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAPTest.Model", "..\..\..\..\..\..\Code\SAPTestCenter\SAPTest.Model\SAPTest.Model.csproj", "{7408F975-899A-4CB3-A55C-A6BBF973881A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportAutoUpload", "..\..\..\..\..\..\Code\SAPTestCenter\ReportAutoUpload\ReportAutoUpload.csproj", "{9929E3DD-16D8-4850-876C-678830EF92F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAPLogon", "..\..\..\..\..\..\Code\SAPTestCenter\SAPLogon\SAPLogon.csproj", "{96DF8737-AFCE-4E6B-A6CA-A5E745904186}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAPAutoLogon", "..\..\..\..\..\..\Code\SAPTestManageSite\SAPAutoLogon\SAPAutoLogon.csproj", "{29ACCB50-2C57-4191-8464-32C1FC32C45C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SilverlightConfiguration", "..\..\..\..\..\..\Code\SAPTestManageSite\SilverlightConfiguration\SilverlightConfiguration.csproj", "{126D76A2-2CD5-4099-A2BE-429BA995FDB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HPUserInfo", "HPUserInfo\HPUserInfo.csproj", "{4E39F68F-42D3-450B-B6A5-FA84F308FD7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +29,33 @@ Global
 		{F88EB5F5-ED18-46D4-A2B2-574778515D20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F88EB5F5-ED18-46D4-A2B2-574778515D20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F88EB5F5-ED18-46D4-A2B2-574778515D20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CD3988C-79DD-45BC-BB50-9900169570E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CD3988C-79DD-45BC-BB50-9900169570E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CD3988C-79DD-45BC-BB50-9900169570E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7408F975-899A-4CB3-A55C-A6BBF973881A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7408F975-899A-4CB3-A55C-A6BBF973881A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7408F975-899A-4CB3-A55C-A6BBF973881A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7408F975-899A-4CB3-A55C-A6BBF973881A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9929E3DD-16D8-4850-876C-678830EF92F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9929E3DD-16D8-4850-876C-678830EF92F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9929E3DD-16D8-4850-876C-678830EF92F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9929E3DD-16D8-4850-876C-678830EF92F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96DF8737-AFCE-4E6B-A6CA-A5E745904186}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96DF8737-AFCE-4E6B-A6CA-A5E745904186}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96DF8737-AFCE-4E6B-A6CA-A5E745904186}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96DF8737-AFCE-4E6B-A6CA-A5E745904186}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29ACCB50-2C57-4191-8464-32C1FC32C45C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29ACCB50-2C57-4191-8464-32C1FC32C45C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29ACCB50-2C57-4191-8464-32C1FC32C45C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29ACCB50-2C57-4191-8464-32C1FC32C45C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{126D76A2-2CD5-4099-A2BE-429BA995FDB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{126D76A2-2CD5-4099-A2BE-429BA995FDB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{126D76A2-2CD5-4099-A2BE-429BA995FDB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{126D76A2-2CD5-4099-A2BE-429BA995FDB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E39F68F-42D3-450B-B6A5-FA84F308FD7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E39F68F-42D3-450B-B6A5-FA84F308FD7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E39F68F-42D3-450B-B6A5-FA84F308FD7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E39F68F-42D3-450B-B6A5-FA84F308FD7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

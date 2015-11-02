@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="6670f5d1-285b-43be-9927-83ce5cbb4ffd" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://c0040597.itcs.hp.com:9001" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="41855ae4-b769-4fd9-b580-65b3dd940b41" SourceId="1" SourceUrl="http://c0040597.itcs.hp.com:9001/?xsd=xsd1" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="9439ef7e-fc54-43b9-9d71-fe6e141833c4" SourceId="1" SourceUrl="http://c0040597.itcs.hp.com:9001/?xsd=xsd0" />
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="9cab99b8-dfa0-4848-90aa-32394c5940f6" SourceId="1" SourceUrl="http://c0040597.itcs.hp.com:9001/?disco" />
+    <MetadataFile FileName="AccountService.wsdl" MetadataType="Wsdl" ID="0942c40b-7026-45f0-ad78-57c8c20a773d" SourceId="1" SourceUrl="http://c0040597.itcs.hp.com:9001/?wsdl" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="ad43b2b3-e2fa-4a4e-b1d6-24a514bf5e9d" SourceId="1" SourceUrl="http://c0040597.itcs.hp.com:9001/?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

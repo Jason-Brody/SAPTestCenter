@@ -1,0 +1,83 @@
+﻿<mui:ModernWindow x:Class="SAPLogonClient.Start"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  xmlns:cv ="clr-namespace:SAPLogonClient.Converters"
+                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                  mc:Ignorable="d"
+                  Height="480" Width="720"
+                  d:DesignHeight="300" d:DesignWidth="300"
+                  Title="SAP Testing"
+                  LogoData="F1 M 38,19L 57,28.5L 57,47.5L 38,57L 19,47.5L 19,28.5L 38,19 Z M 22.1667,30.0833L 22.1667,45.9167L 25.3333,47.5L 36.4167,53.0417L 36.4167,37.2083L 22.1667,30.0833 Z M 50.6666,47.5L 53.8333,45.9167L 53.8333,30.0833L 39.5833,37.2083L 39.5833,53.0417L 50.6666,47.5 Z M 38,22.1667L 25.3333,28.5L 38,34.8334L 50.6666,28.5L 38,22.1667 Z"          
+                  Style="{StaticResource BlankWindow}">
+    
+    <Window.Resources>
+        <cv:CanvasLeftConverter x:Key="CanvasLeftConverter"/>
+        <cv:CanvasTopConverter x:Key="CanvasTopConverter"/>
+        <sys:Boolean x:Key="canvasTop">true</sys:Boolean>
+        <sys:Boolean x:Key="canvasTop1">false</sys:Boolean>
+        
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="gd_Pic" Visibility="Collapsed" Grid.Row="0">
+            <Canvas Width="{Binding ElementName=gd_Pic,Path=ActualWidth}" Height="{Binding ElementName=gd_Pic,Path=ActualHeight}">
+                <Image x:Name="img_Self" Height="200" Width="200" Canvas.Bottom="-20">
+                    <Canvas.Left>
+                        <MultiBinding Converter="{StaticResource CanvasLeftConverter}">
+                            <Binding RelativeSource="{RelativeSource Self}" Path="Width"/>
+                            <Binding ElementName="gd_Pic" Path="ActualWidth"/>
+                        </MultiBinding>
+                    </Canvas.Left>
+                   
+                </Image>
+            </Canvas>
+        </Grid>
+
+        <Grid x:Name="gd_Info" Visibility="Collapsed" Grid.Row="1">
+            <Canvas Width="{Binding ElementName=gd_Info,Path=ActualWidth}" Height="{Binding ElementName=gd_Info,Path=ActualHeight}">
+                <StackPanel x:Name="sp_Info" DataContext="{Binding}" Canvas.Top="30">
+                    <Canvas.Right>
+                        <MultiBinding Converter="{StaticResource CanvasLeftConverter}">
+                            <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth"/>
+                            <Binding ElementName="gd_Info" Path="ActualWidth"/>
+                        </MultiBinding>
+                    </Canvas.Right>
+                    <TextBlock Text="{Binding UserName}" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding BusinessUnit}" HorizontalAlignment="Center" FontSize="12" Margin="0,5,0,0"/>
+                    <Button Content="Enter" x:Name="btn_Login" Click="btn_Login_Click" Margin="0,10,0,0">
+                    </Button>
+                    <!--<Button Content="生命可以随心所欲，但不能随波逐流" x:Name="btn_Web" Click="btn_Web_Click" Margin="0,10,0,0"/>-->
+                </StackPanel>
+            </Canvas>
+        </Grid>
+        
+        <Canvas Grid.RowSpan="2" x:Name="cv_Main">
+            <StackPanel  x:Name="sp_Process" Grid.RowSpan="2">
+                <Canvas.Right>
+                    <MultiBinding Converter="{StaticResource CanvasLeftConverter}">
+                        <Binding RelativeSource="{RelativeSource Self}" Path="ActualWidth"/>
+                        <Binding ElementName="cv_Main" Path="ActualWidth"/>
+                    </MultiBinding>
+                </Canvas.Right>
+                <Canvas.Top>
+                    <MultiBinding Converter="{StaticResource CanvasTopConverter}">
+                        <Binding RelativeSource="{RelativeSource Self}" Path="ActualHeight"/>
+                        <Binding ElementName="cv_Main" Path="ActualHeight"/>
+                        <Binding Source="{StaticResource canvasTop}"/>
+                    </MultiBinding>
+                </Canvas.Top>
+                <TextBlock x:Name="tbl_Process" Text="Getting user data info" FontSize="20" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="tbl_Process1" Text="This will take sever minutes, please wait" FontSize="12" HorizontalAlignment="Center"/>
+                <mui:ModernProgressRing  Style="{StaticResource WaveProgressRingStyle}" IsActive="True" Width="180" Height="80" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Canvas>
+
+    </Grid>
+</mui:ModernWindow>

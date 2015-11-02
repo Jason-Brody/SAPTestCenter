@@ -25,6 +25,7 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <SilverlightApplicationList>{96DF8737-AFCE-4E6B-A6CA-A5E745904186}|..\SAPLogon\SAPLogon.csproj|ClientBin|False</SilverlightApplicationList>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -170,7 +171,6 @@
     <Content Include="Image\top-star.png" />
     <Content Include="Image\Donate.png" />
     <Content Include="Media\See You Again.mp3" />
-    <Content Include="Media\xiaoji.mp4" />
     <Content Include="Media\天空之城.mp3" />
     <Content Include="SAPLogonTestPage.aspx" />
     <Content Include="SAPLogonTestPage.html" />
@@ -262,7 +262,7 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SAPTest.Model\SAPTest.Model.csproj">
+    <ProjectReference Include="..\..\..\..\..\..\..\Code\SAPTestCenter\SAPTest.Model\SAPTest.Model.csproj">
       <Project>{7408f975-899a-4cb3-a55c-a6bbf973881a}</Project>
       <Name>SAPTest.Model</Name>
     </ProjectReference>
