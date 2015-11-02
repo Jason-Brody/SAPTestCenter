@@ -24,7 +24,7 @@ namespace HPUserInfo
             };
 
             HPUserHelper.GetUserInfo(filters, formats).Wait();
-
+             
         }
     }
 
