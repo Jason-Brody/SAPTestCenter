@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.DirectoryServices;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,6 +12,10 @@ namespace HPUserInfo
     {
         static void Main()
         {
+           // WindowsIdentity identity = new WindowsIdentity(@"ASIAPACIFIC\yuanqin");
+           
+            HPUserHelper.Test().Wait();
+
             Dictionary<string, string> filters = new Dictionary<string, string>()
             {
                 {"uid","yang.zhou4@hpe.com" }
@@ -26,11 +31,64 @@ namespace HPUserInfo
             HPUserHelper.GetUserInfo(filters, formats).Wait();
              
         }
+
+        public static bool IsUserInGroup(string groupName)
+        {
+            WindowsIdentity currentUser = WindowsIdentity.GetCurrent();
+
+            IdentityReferenceCollection userGroups = currentUser.Groups;
+
+            foreach (IdentityReference group in userGroups)
+            {
+
+                IdentityReference translated = group.Translate(typeof(NTAccount));
+                Console.WriteLine(translated.Value);
+
+            }
+
+            return false;
+        }
     }
 
 
     public static class HPUserHelper
     {
+
+        public static Task Test()
+        {
+
+            return Task.Run(() => {
+                string strServerDNS = "ldap.hp.com:389";
+                string strSearchBaseDN = "ou=Email,ou=Services,o=hp.com";
+                string strLDAPPath;
+                strLDAPPath = "LDAP://" + strServerDNS + "/" + strSearchBaseDN;
+                DirectoryEntry objDirEntry = new DirectoryEntry(strLDAPPath, null, null, AuthenticationTypes.Anonymous);
+                DirectorySearcher searcher = new DirectorySearcher(objDirEntry);
+                SearchResult result = null;
+
+                searcher.Filter = "mail=ssit-finance-hpfs-irene-employees@hpe.com";
+                searcher.PropertiesToLoad.Add("ntUserDomainId");
+                
+                searcher.ClientTimeout = TimeSpan.FromSeconds(20);
+                try
+                {
+                    result = searcher.FindOne();
+                    
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                finally
+                {
+                    searcher.Dispose();
+                }
+
+            });
+        }
+
         public static Task GetUserInfo(Dictionary<string,string> Filter,Dictionary<string, ResultPropertyValueCollection> ResultFormat)
         {
             

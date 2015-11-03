@@ -71,9 +71,6 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoUpgrade">
-      <HintPath>..\..\..\..\AutoUpgrade\AutoUpgrade\AutoUpgrade\bin\Debug\AutoUpgrade.exe</HintPath>
-    </Reference>
     <Reference Include="FirstFloor.ModernUI, Version=1.0.6.0, Culture=neutral, PublicKeyToken=2d21ec3cd074c59a, processorArchitecture=MSIL">
       <HintPath>..\packages\ModernUI.WPF.1.0.6\lib\net45\FirstFloor.ModernUI.dll</HintPath>
       <Private>True</Private>
@@ -82,10 +79,6 @@
     <Reference Include="SAPGuiAutomationLib, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\Young\Documents\GitHub\SAPGuiAutomationLib\SAPGuiAutomationLib\bin\Debug\SAPGuiAutomationLib.dll</HintPath>
-    </Reference>
-    <Reference Include="SAPTestRunTime, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Users\yanzhou\Documents\GitHub\SAPGuiAutomationLib\SAPTestForRunTime\bin\Debug\SAPTestRunTime.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -110,9 +103,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Young.Automation.Selenium">
-      <HintPath>..\..\..\..\Library\Young.Library\Young.Automation.Selenium\bin\Debug\Young.Automation.Selenium.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

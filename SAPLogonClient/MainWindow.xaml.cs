@@ -1,4 +1,4 @@
-﻿using AutoUpgrade;
+﻿//using AutoUpgrade;
 using FirstFloor.ModernUI.Presentation;
 using FirstFloor.ModernUI.Windows.Controls;
 using System;
@@ -32,7 +32,7 @@ namespace SAPLogonClient
             
             
             this.Closed += MainWindow_Closed;
-            Upgrade.Current.StartUpgrade(false);
+            //Upgrade.Current.StartUpgrade(false);
         }
 
         void MainWindow_Closed(object sender, EventArgs e)

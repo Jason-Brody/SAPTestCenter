@@ -1,4 +1,4 @@
-﻿using AutoUpgrade;
+﻿//using AutoUpgrade;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,7 +33,7 @@ namespace SAPLogonClient.Pages.Settings
 
         private void btn_Update_Click(object sender, RoutedEventArgs e)
         {
-            Upgrade.Current.StartUpgrade(true);
+            //Upgrade.Current.StartUpgrade(true);
         }
     }
 }

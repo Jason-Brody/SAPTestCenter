@@ -19,9 +19,9 @@ using SAPFEWSELib;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.IE;
-using Young.Automation.Selenium.TestAssistant;
+//using Young.Automation.Selenium.TestAssistant;
 using SAPLogonClient.ViewModel;
-using SAPTestRunTime;
+//using SAPTestRunTime;
 
 namespace SAPLogonClient.Pages.Logon
 {
@@ -121,29 +121,29 @@ namespace SAPLogonClient.Pages.Logon
         {
             return Task.Run(() => {
                 
-                SAPLogon logon = new SAPLogon();
-                logon.AfterLogin += (s, e) => {
+                //SAPLogon logon = new SAPLogon();
+                //logon.AfterLogin += (s, e) => {
                         
-                        GuiPasswordField gpf = SAPTestHelper.Current.TryGetElementById<GuiPasswordField>("wnd[1]/usr/pwdRSYST-NCODE");
-                        GuiTextField txtF = SAPTestHelper.Current.TryGetElementById<GuiTextField>("wnd[0]/usr/pwdRSYST-BCODE");
-                        if (gpf != null || txtF !=null)
-                        {
-                            GuiConnection gc = s.Parent as GuiConnection;
-                            gc.CloseSession(s.Id);
-                            _app.Client.FailLoginAsync(acct);
-                            throw new Exception("Fail to Login, an email has will send to owner shortly");
-                        }
-                        else
-                        {
-                            _app.Client.AddLog(acct.Id, Environment.MachineName, true);
-                        }
+                //        GuiPasswordField gpf = SAPTestHelper.Current.TryGetElementById<GuiPasswordField>("wnd[1]/usr/pwdRSYST-NCODE");
+                //        GuiTextField txtF = SAPTestHelper.Current.TryGetElementById<GuiTextField>("wnd[0]/usr/pwdRSYST-BCODE");
+                //        if (gpf != null || txtF !=null)
+                //        {
+                //            GuiConnection gc = s.Parent as GuiConnection;
+                //            gc.CloseSession(s.Id);
+                //            _app.Client.FailLoginAsync(acct);
+                //            throw new Exception("Fail to Login, an email has will send to owner shortly");
+                //        }
+                //        else
+                //        {
+                //            _app.Client.AddLog(acct.Id, Environment.MachineName, true);
+                //        }
                     
                     
-                };
-                logon.StartProcess();
-                logon.OpenConnection(acct.Server);
-                SAPTestHelper.Current.SetSession(logon);
-                logon.Login(acct.UserName, acct.Password, acct.Client,"EN");
+                //};
+                //logon.StartProcess();
+                //logon.OpenConnection(acct.Server);
+                //SAPTestHelper.Current.SetSession(logon);
+                //logon.Login(acct.UserName, acct.Password, acct.Client,"EN");
             });
             
         }
@@ -151,59 +151,59 @@ namespace SAPLogonClient.Pages.Logon
         private Task webLogonTask(Account acct,Browser b)
         {
             return Task.Run(() => {
-                IWebDriver driver = null;
-                if(b == Browser.Chrome)
-                {
-                    driver = new ChromeDriver();
-                }
-                else
-                {
-                    driver = new InternetExplorerDriver();
-                }
+                //IWebDriver driver = null;
+                //if(b == Browser.Chrome)
+                //{
+                //    driver = new ChromeDriver();
+                //}
+                //else
+                //{
+                //    driver = new InternetExplorerDriver();
+                //}
 
                 
-                IOptions io = driver.Manage();
-                io.Window.Maximize();
-                string url = acct.Server;
-                driver.Navigate().GoToUrl(url);
-                IWebElement element = null;
+                //IOptions io = driver.Manage();
+                //io.Window.Maximize();
+                //string url = acct.Server;
+                //driver.Navigate().GoToUrl(url);
+                //IWebElement element = null;
 
                
 
-                element = driver.GetElementLazy(By.Id("sap-user"), 20);
-                element.SendNewKeys(acct.UserName);
-                element = driver.GetElementLazy(By.Id("sap-client"), 20);
-                element.SendNewKeys(acct.Client);
+                //element = driver.GetElementLazy(By.Id("sap-user"), 20);
+                //element.SendNewKeys(acct.UserName);
+                //element = driver.GetElementLazy(By.Id("sap-client"), 20);
+                //element.SendNewKeys(acct.Client);
                 
-                element = driver.GetElementLazy(By.Id("sap-password"), 20);
-                element.SendNewKeys(acct.Password);
-                element = driver.GetElementLazy(By.Id("LOGON_BUTTON"), 20);
-                element.Submit();
+                //element = driver.GetElementLazy(By.Id("sap-password"), 20);
+                //element.SendNewKeys(acct.Password);
+                //element = driver.GetElementLazy(By.Id("LOGON_BUTTON"), 20);
+                //element.Submit();
 
-                try
-                {
-                    element = driver.GetElementLazy(By.Id("sap-user"), 2);
-                }
-                catch
-                {
-                    element = null;
-                }
+                //try
+                //{
+                //    element = driver.GetElementLazy(By.Id("sap-user"), 2);
+                //}
+                //catch
+                //{
+                //    element = null;
+                //}
                 
-                if(element!=null)
-                {
-                    _app.Client.FailLoginAsync(acct);
+                //if(element!=null)
+                //{
+                //    _app.Client.FailLoginAsync(acct);
 
-                    //System.Diagnostics.Process[] ps = System.Diagnostics.Process.GetProcessesByName("chromedriver");
-                    //if(ps!=null)
-                    //{
-                    //    foreach(var p in ps)
-                    //    {
-                    //        p.Kill();
-                    //    }
-                    //}
+                //    //System.Diagnostics.Process[] ps = System.Diagnostics.Process.GetProcessesByName("chromedriver");
+                //    //if(ps!=null)
+                //    //{
+                //    //    foreach(var p in ps)
+                //    //    {
+                //    //        p.Kill();
+                //    //    }
+                //    //}
 
-                    throw new Exception("Fail to Login, an email has will send to owner shortly");
-                }
+                //    throw new Exception("Fail to Login, an email has will send to owner shortly");
+                //}
                 
             });
         }

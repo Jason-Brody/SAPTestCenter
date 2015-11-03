@@ -17,7 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Young.Automation.Selenium.TestAssistant;
+//using Young.Automation.Selenium.TestAssistant;
 
 namespace SAPLogonClient.Pages.Logon
 {

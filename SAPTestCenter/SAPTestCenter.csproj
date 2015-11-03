@@ -152,9 +152,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ClientBin\SAPLogon.xap">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\UiKit\uikit.css" />
@@ -253,6 +250,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ClientBin\" />
     <Folder Include="Views\SAPBase\" />
   </ItemGroup>
   <ItemGroup>
@@ -261,6 +259,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SAPTest.Model\SAPTest.Model.csproj">
+      <Project>{7408f975-899a-4cb3-a55c-a6bbf973881a}</Project>
+      <Name>SAPTest.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading;
 using System.Net;
 using System.Xml;
-using SAPFEWSELib;
+//using SAPFEWSELib;
 using SAPAutoLogon.AccountService;
-using SAPAutomation;
+//using SAPAutomation;
 
 namespace SAPAutoLogon
 {
@@ -45,13 +45,13 @@ namespace SAPAutoLogon
 
             var account = _client.AccountInfoByName(BoxId, Environment.MachineName);
 
-            SAPTestHelper.Current.SetSession();
-            SAPTestHelper.Current.GetElementById<GuiTextField>("wnd[0]/usr/txtRSYST-BNAME").Text = account.UserName;
-            SAPTestHelper.Current.GetElementById<GuiTextField>("wnd[0]/usr/pwdRSYST-BCODE").Text = account.Password;
-            SAPTestHelper.Current.GetElementById<GuiTextField>("wnd[0]/usr/txtRSYST-MANDT").Text = account.Client;
-            SAPTestHelper.Current.GetElementById<GuiTextField>("wnd[0]/usr/txtRSYST-LANGU").Text = Language;
-            GuiFrameWindow window = SAPTestHelper.Current.GetElementById<GuiFrameWindow>("wnd[0]");
-            window.SendVKey(0);
+            //SAPTestHelper.Current.SetSession();
+            //SAPTestHelper.Current.GetElementById<GuiTextField>("wnd[0]/usr/txtRSYST-BNAME").Text = account.UserName;
+            //SAPTestHelper.Current.GetElementById<GuiTextField>("wnd[0]/usr/pwdRSYST-BCODE").Text = account.Password;
+            //SAPTestHelper.Current.GetElementById<GuiTextField>("wnd[0]/usr/txtRSYST-MANDT").Text = account.Client;
+            //SAPTestHelper.Current.GetElementById<GuiTextField>("wnd[0]/usr/txtRSYST-LANGU").Text = Language;
+            //GuiFrameWindow window = SAPTestHelper.Current.GetElementById<GuiFrameWindow>("wnd[0]");
+            //window.SendVKey(0);
 
 
             
@@ -83,31 +83,31 @@ namespace SAPAutoLogon
 
 
 
-            SAPLogon logon = new SAPLogon();
-            logon.AfterLogin += (s, e) => {
-                GuiPasswordField gpf = SAPTestHelper.Current.TryGetElementById<GuiPasswordField>("wnd[1]/usr/pwdRSYST-NCODE");
-                GuiTextField txtF = SAPTestHelper.Current.TryGetElementById<GuiTextField>("wnd[0]/usr/pwdRSYST-BCODE");
-                if (gpf != null || txtF != null)
-                {
-                    GuiConnection gc = s.Parent as GuiConnection;
-                    gc.CloseSession(s.Id);
-                    _client.FailLogin(account);
-                    throw new Exception("Fail to Login, an email has will send to owner shortly");
-                }
-                else
-                {
-                    _client.AddLog(account.Id, Environment.MachineName, false);
-                    //string newapi = string.Format("http://c0049289.itcs.hp.com:8018/api/Account/addlog?usr={0}&id={1}&pc={2}&m=false", ntAccount, id.InnerText, Environment.MachineName);
-                    //client.DownloadString(newapi);
-                }
-                //http://c0049289.itcs.hp.com:8080/api/account/AddLog?id={0}&pc={1}&m=false
-                //http://c0049289.itcs.hp.com:8018/api/Account/addlog?usr=ASIAPACIFIC\yanzhou&id=55&pc=test&m=false
+            //SAPLogon logon = new SAPLogon();
+            //logon.AfterLogin += (s, e) => {
+            //    GuiPasswordField gpf = SAPTestHelper.Current.TryGetElementById<GuiPasswordField>("wnd[1]/usr/pwdRSYST-NCODE");
+            //    GuiTextField txtF = SAPTestHelper.Current.TryGetElementById<GuiTextField>("wnd[0]/usr/pwdRSYST-BCODE");
+            //    if (gpf != null || txtF != null)
+            //    {
+            //        GuiConnection gc = s.Parent as GuiConnection;
+            //        gc.CloseSession(s.Id);
+            //        _client.FailLogin(account);
+            //        throw new Exception("Fail to Login, an email has will send to owner shortly");
+            //    }
+            //    else
+            //    {
+            //        _client.AddLog(account.Id, Environment.MachineName, false);
+            //        //string newapi = string.Format("http://c0049289.itcs.hp.com:8018/api/Account/addlog?usr={0}&id={1}&pc={2}&m=false", ntAccount, id.InnerText, Environment.MachineName);
+            //        //client.DownloadString(newapi);
+            //    }
+            //    //http://c0049289.itcs.hp.com:8080/api/account/AddLog?id={0}&pc={1}&m=false
+            //    //http://c0049289.itcs.hp.com:8018/api/Account/addlog?usr=ASIAPACIFIC\yanzhou&id=55&pc=test&m=false
                 
-            };
-            logon.StartProcess();
-            logon.OpenConnection(account.Server);
-            SAPTestHelper.Current.SetSession(logon);
-            logon.Login(account.UserName, account.Password, account.Client,Language);
+            //};
+            //logon.StartProcess();
+            //logon.OpenConnection(account.Server);
+            //SAPTestHelper.Current.SetSession(logon);
+            //logon.Login(account.UserName, account.Password, account.Client,Language);
 
             //logon.OpenConnection(Server.InnerText);
             //SAPTestHelper.Current.SetSession(logon.SapGuiSession);
