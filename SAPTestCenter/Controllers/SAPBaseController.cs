@@ -17,7 +17,7 @@ namespace SAPTestCenter.Controllers
 
             if (session["IsInnerUser"] == null)
             {
-
+                 
                 var user = InternalAttribute.GetUser();
                 if (user == null)
                     session["IsInnerUser"] = false;
