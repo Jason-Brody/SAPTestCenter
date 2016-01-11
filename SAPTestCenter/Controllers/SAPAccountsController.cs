@@ -10,10 +10,11 @@ using SAPTest.Model;
 using System.Configuration;
 using SAPTestCenter.Helpers;
 using System.Net.Mail;
-
+using SAPTestCenter.Filters;
 
 namespace SAPTestCenter.Controllers
 {
+    [Internal]
     public class SAPAccountsController : SAPBaseController
     {
         private SAPTestContext db = new SAPTestContext();
@@ -24,7 +25,7 @@ namespace SAPTestCenter.Controllers
         {
             List<Account> myAccounts = new List<Account>();
 
-            User u = getUser();
+            User u = InternalAttribute.GetUser();
 
 
 
@@ -50,7 +51,7 @@ namespace SAPTestCenter.Controllers
             List<AccountUser> myAccounts = new List<AccountUser>();
             //List<Account> myAccounts = new List<Account>();
 
-            User u = getUser();
+            User u = InternalAttribute.GetUser();
 
             if (u != null && u.IsValid)
             {
@@ -72,9 +73,9 @@ namespace SAPTestCenter.Controllers
         public ActionResult GetAccess()
         {
             List<Account> accounts = new List<Account>();
-            User u = getUser();
+            User u = InternalAttribute.GetUser();
 
-            if(u!=null && u.IsValid)
+            if (u!=null && u.IsValid)
             {
                 var myAccounts = from act in db.Accounts
                               join au in db.AccountUsers on act.Id equals au.AcctId
@@ -93,7 +94,7 @@ namespace SAPTestCenter.Controllers
         // GET: SAPAccounts/Details/5
         public ActionResult Details(int id)
         {
-            var user = getUser();
+            var user = InternalAttribute.GetUser();
 
             if (user == null)
             {
@@ -128,7 +129,7 @@ namespace SAPTestCenter.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = getUser();
+                var user = InternalAttribute.GetUser();
 
                 var accoutNum = db.Accounts.Where(c => c.BoxName == account.BoxName).Count();
 
@@ -237,7 +238,7 @@ namespace SAPTestCenter.Controllers
         [HttpGet]
         public ActionResult SetAccess(int id)
         {
-            var u = getUser();
+            var u = InternalAttribute.GetUser();
             if (u != null)
             {
                 var access = db.Accesses.Where(c => c.Id == id).FirstOrDefault();

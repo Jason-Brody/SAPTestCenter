@@ -10,6 +10,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Xml;
 using SAPTestCenter.Models;
+using SAPTestCenter.Filters;
 
 namespace SAPTestCenter.Controllers
 {
@@ -31,7 +32,7 @@ namespace SAPTestCenter.Controllers
                 
             ReportInfo ri = new ReportInfo();
             ri.Filter = Filter;
-            var u = getUser();
+            var u = InternalAttribute.GetUser();
             if (u != null)
                 ri.IsVaildUser = true;
 
@@ -114,8 +115,8 @@ namespace SAPTestCenter.Controllers
         
         public ActionResult Upload()
         {
-            var u = getUser();
-            if(u!=null)
+            var u = InternalAttribute.GetUser();
+            if (u!=null)
             {
                 HttpPostedFileBase file = Request.Files["file"];
                 string guid = Guid.NewGuid().ToString();

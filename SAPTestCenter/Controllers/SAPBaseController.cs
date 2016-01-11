@@ -1,4 +1,5 @@
 ﻿using SAPTest.Model;
+using SAPTestCenter.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,24 @@ namespace SAPTestCenter.Controllers
 {
     public class SAPBaseController : Controller
     {
-        // GET: SAPBase
-        protected User getUser()
+        public SAPBaseController()
         {
-            User user = null;
-            using (var db = new SAPTestContext())
+            var session = System.Web.HttpContext.Current.Session;
+
+
+            if (session["IsInnerUser"] == null)
             {
-                //user = db.Users.Where(u => u.NTAccount == @"ASIAPACIFIC\yanzhou").FirstOrDefault();
-                user = db.Users.Where(u => u.NTAccount == User.Identity.Name).FirstOrDefault();
+
+                var user = InternalAttribute.GetUser();
+                if (user == null)
+                    session["IsInnerUser"] = false;
+                else
+                    session["IsInnerUser"] = true;
             }
-            return user;
+
+            ViewBag.IsValid = bool.Parse(session["IsInnerUser"].ToString());
         }
+
+        
     }
 }

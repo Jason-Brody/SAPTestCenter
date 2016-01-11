@@ -47,11 +47,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -143,6 +143,7 @@
     <Compile Include="Controllers\SAPAccountsController.cs" />
     <Compile Include="ApiControllers\SAPAccountsDataController.cs" />
     <Compile Include="Controllers\SAPBaseController.cs" />
+    <Compile Include="Filters\InternalAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -161,6 +162,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Image\DPP_0145.JPG" />
     <Content Include="Image\HP.jpg" />
+    <Content Include="Image\HPE_log_left_wht.png" />
     <Content Include="Image\HPStyle_Spinning.gif" />
     <Content Include="Image\logo.png" />
     <Content Include="Image\self.png" />
@@ -251,6 +253,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="ClientBin\" />
+    <Folder Include="Views\Inner\" />
     <Folder Include="Views\SAPBase\" />
   </ItemGroup>
   <ItemGroup>
